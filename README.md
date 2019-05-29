@@ -1,6 +1,6 @@
 # Test overview
 
-Feedreader.js tests four aspects of the given program: 
+Feedreader.js tests four aspects of the UdaciFeed: 
 
 ## RSS Feeds
 
@@ -32,3 +32,7 @@ This suite has a function 'there is more then zero entries' that ensures when th
 
 This suite has a test that ensures when a new feed is loaded by the loadFeed function that the content actually changes.
 The suite contains beforeEach and asynchronous done() function, bacuase laodFeeds() is asynchronous.
+
+# open the programm
+
+[here you can open the project]()
