@@ -1,36 +1,15 @@
-/* feedreader.js
- *
- * This is the spec file that Jasmine will read and contains
- * all of the tests that will be run against your application.
- */
 
-/* We're placing all of our tests within the $() function,
- * since some of these tests may require DOM elements. We want
- * to ensure they don't run until the DOM is ready.
- */
 $(function() {
-    /* This is our first test suite - a test suite just contains
-    * a related set of tests. This suite is all about the RSS
-    * feeds definitions, the allFeeds variable in our application.
-    */
+  
     describe('RSS Feeds', function() {
-        /* This is our first test - it tests to make sure that the
-         * allFeeds variable has been defined and that it is not
-         * empty. Experiment with this before you get started on
-         * the rest of this project. What happens when you change
-         * allFeeds in app.js to be an empty array and refresh the
-         * page?
-         */
-       
+
+       //tests if allFeeds variables are defined and not empty
         it ('variables are defined and not empty',  ()=> {
             expect(allFeeds).toBeDefined();
             expect(allFeeds.length).not.toBe(0);
         });
 
-         /* TODO: Write a test that loops through each feed
-         * in the allFeeds object and ensures it has a URL defined
-         * and that the URL is not empty.
-         DONE*/
+        //loops through each feed in the allFeeds object and ensures it has a URL define and is not empty.
         it ('urls are defined and not empty',  ()=> {
             for(let i = 0; i <allFeeds.length; i++){
             expect(allFeeds[i].url).toBeDefined();
@@ -38,10 +17,7 @@ $(function() {
             }
         });
 
-         /* TODO: Write a test that loops through each feed
-         * in the allFeeds object and ensures it has a name defined
-         * and that the name is not empty.
-         DONE*/
+    //loops through each feed in the allFeeds object and ensures it has a name defined and that the name is not empty.
         it ('names are defined and not empty', () =>{
             for(let i = 0; i <allFeeds.length; i++){
             expect(allFeeds[i].name).toBeDefined();
@@ -50,42 +26,26 @@ $(function() {
         });
     });
 
-
-    /* TODO: Write a new test suite named "The menu" */
     describe('The Menu', ()=>{
 
-        /* TODO: Write a test that ensures the menu element is
-         * hidden by default. You'll have to analyze the HTML and
-         * the CSS to determine how we're performing the
-         * hiding/showing of the menu element.
-         DONE*/
+        //ensures the menu element is hidden by default
         it('menu is hidden', ()=>{
             expect($('body').hasClass('menu-hidden')).toBe(true);
         });
 
-         /* TODO: Write a test that ensures the menu changes
-          * visibility when the menu icon is clicked. This test
-          * should have two expectations: does the menu display when
-          * clicked and does it hide when clicked again.
-          DONE*/
-        it('menu changes', ()=>{
-            $('.menu-icon-link').trigger('click');
+         //ensures the menu changes visibility when the menu icon is clicked
+       it('menu changes', ()=>{
+            $('.menu-icon-link').click();
             expect($('body').hasClass('menu-hidden')).toBe(false);
-            $('.menu-icon-link').trigger('click');
+            $('.menu-icon-link').click();
             expect($('body').hasClass('menu-hidden')).toBe(true);
         });
-
     });
 
-    /* TODO: Write a new test suite named "Initial Entries" */
     describe('Initial Entries', ()=>{
-          /* TODO: Write a test that ensures when the loadFeed
-         * function is called and completes its work, there is at least
-         * a single .entry element within the .feed container.
-         * Remember, loadFeed() is asynchronous so this test will require
-         * the use of Jasmine's beforeEach and asynchronous done() function.
-         */
 
+          // ensures when the loadFeed function is called and completes its work, 
+          //there is at least a single .entry element within the .feed container.
         beforeEach((done)=>{
             loadFeed(0, ()=>{
                 done();
@@ -93,31 +53,32 @@ $(function() {
         });
 
         it('there is more then zero entries', ()=>{
-            expect($('.entry .feed')).toBeDefined();
+            expect($('.feed .entry').length).not.toBeLessThan(0);
         });
     });
 
-     /* TODO: Write a new test suite named "New Feed Selection" */
     describe('New Feed Selection', ()=>{
-        let entries0;
-        let entries1;
-         /* TODO: Write a test that ensures when a new feed is loaded
-         * by the loadFeed function that the content actually changes.
-         * Remember, loadFeed() is asynchronous.
-         DONE*/
-        beforeEach((done)=>{
-            $('.feed').empty();
-            loadFeed(0, ()=>{
-                entries0 = $('.feed').find(allFeeds.url);
-                done();
-            });
-            loadFeed(1, ()=>{
-                entries1 = $('.feed').find(allFeeds.url);
-            });
-        });
+        
+        //variables for saving content of url for asynchronus test
+         let feedAfterFirstLoad;
+         let feedAfterSecondLoad;
+         
+         beforeEach(function(done){
+           loadFeed(0, function () {
 
-        it('content has changed', ()=>{
-            expect(entries0).not.toBe(entries1);
-        })
+            //get content of feed container
+              feedAfterFirstLoad = document.querySelector('.entry').innerHTML;
+              loadFeed(1, function () {
+                  // get content of feed container again
+                  feedAfterSecondLoad = document.querySelector('.entry').innerHTML;
+                  done();
+              });
+           });
+         });
+         
+         it('contain has changed', ()=>{
+             //contents should not be equal
+            expect(feedAfterFirstLoad).not.toBe(feedAfterSecondLoad);
+         });
     });
 }());
