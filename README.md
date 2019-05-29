@@ -33,6 +33,6 @@ This suite has a function 'there is more then zero entries' that ensures when th
 This suite has a test that ensures when a new feed is loaded by the loadFeed function that the content actually changes.
 The suite contains beforeEach and asynchronous done() function, bacuase laodFeeds() is asynchronous.
 
-# open the programm
+# Open the program
 
-[here you can open the project](https://liliyaj.github.io/Jasmine_Feed_Test/)
+[here you can check it out](https://liliyaj.github.io/Jasmine_Feed_Test/)
